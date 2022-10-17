@@ -96,10 +96,13 @@ const Profile = ({ user, friends, posts }) => {
                       right: "1rem",
                     }}
                   >
-                    <label
-                      htmlFor="cover_image"
+                    <button
+                      onClick={() => {
+                        setShowUpdateForm(true);
+                      }}
                       style={{
                         background: colors.lime,
+                        border: "none",
                         padding: "0.5rem",
                         margin: "0 1rem 1rem 0",
                         borderRadius: spacing.nm + "px",
@@ -112,13 +115,7 @@ const Profile = ({ user, friends, posts }) => {
                         <BsCamera />
                       </span>
                       Change Cover
-                    </label>
-                    <input
-                      type="file"
-                      name=""
-                      id="cover_image"
-                      style={{ display: "none" }}
-                    />
+                    </button>
                   </div>
                 )}
               </CoverImageContainer>

@@ -28,30 +28,25 @@ const RightNav = ({ className }) => {
         <>
           <div className="content" style={{ display: "flex" }}>
             <Link href={`/profile/${user?.id}`}>
-              <a>
-                <button
-                  onClick={() => {
-                    console.log("clicked", user?.id);
-                  }}
-                  style={{
-                    cursor: "pointer",
-                    padding: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Image
-                    src={
-                      user?.profile_image
-                        ? `${backendUrl}${user?.profile_image}`
-                        : ""
-                    }
-                    width={40}
-                    height={40}
-                    alt=""
-                  />
-                </button>
+              <a
+                style={{
+                  cursor: "pointer",
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Image
+                  src={
+                    user?.profile_image
+                      ? `${backendUrl}${user?.profile_image}`
+                      : ""
+                  }
+                  width={40}
+                  height={40}
+                  alt=""
+                />
               </a>
             </Link>
             <Link href={"/notifications"}>

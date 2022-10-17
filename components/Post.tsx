@@ -136,6 +136,28 @@ const Post = ({ post }) => {
     return state.user.data;
   });
 
+  const likePost = async () => {
+    await fetch(`${backendUrl}/api/posts/${post?.id}/like/`, {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: user?.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+  const dislikePost = async () => {
+    await fetch(`${backendUrl}/api/posts/${post?.id}/dislike/`, {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: user?.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
   useEffect(() => {
     text?.length > 200 ? setShowFullText(false) : setShowFullText(true);
     if (post?.likes.length > 0) {
@@ -146,8 +168,15 @@ const Post = ({ post }) => {
       const user = await res.json();
       setAuthor(user);
     };
+    const fetchLikes = async () => {
+      const res = await fetch(`${backendUrl}/api/posts/${post?.id}/likes/`);
+      const likesObject: { likes: number[] } = await res.json();
+
+      likesObject?.likes?.includes(user?.id) && setLikeIsActive(true);
+    };
+    fetchLikes();
     fetchAuthor();
-  }, [text.length, post.likes.length, post?.author]);
+  }, [text.length, post.likes.length, post?.author, post.id, user?.id]);
   return (
     <Section>
       {user && (
@@ -221,12 +250,19 @@ const Post = ({ post }) => {
                           )}
                           <li>
                             <button
-                              onClick={() => {
-                                setLikeIsActive(true);
-                                setLikeCount(likeCount + 1);
+                              onClick={async () => {
+                                if (!likeIsActive) {
+                                  await dislikePost();
+                                  setLikeIsActive(true);
+                                  setLikeCount(likeCount + 1);
+                                } else {
+                                  await likePost();
+                                  setLikeIsActive(false);
+                                  setLikeCount(likeCount - 1);
+                                }
                               }}
                             >
-                              <a>Like</a>
+                              <a>{likeIsActive ? "Dislike" : "Like"}</a>
                             </button>
                           </li>
                           <Divider />
@@ -296,11 +332,13 @@ const Post = ({ post }) => {
                   <button
                     type="button"
                     className={likeIsActive ? "active" : undefined}
-                    onClick={() => {
+                    onClick={async () => {
                       if (likeIsActive) {
+                        await dislikePost();
                         setLikeIsActive(false);
                         setLikeCount(likeCount - 1);
                       } else {
+                        await likePost();
                         setLikeIsActive(true);
                         setLikeCount(likeCount + 1);
                       }

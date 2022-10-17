@@ -1,4 +1,7 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+import formatDate from "../../hooks/formatDate";
+import { updateUserProfile } from "../../redux/apiCalls";
 import { useDispatch, useSelector } from "../../redux/hooks";
 import { Divider, Section } from "../../utils/styles";
 import {
@@ -13,12 +16,15 @@ const UpdateFormComponent = ({ setShowForm }) => {
   const userState = useSelector((state) => {
     return state.user;
   });
+  const router = useRouter();
 
   const [email, setEmail] = useState(userState.data?.email);
   const [firstName, setFirstName] = useState(userState.data?.first_name);
   const [middleName, setMiddleName] = useState(userState.data?.middle_name);
   const [lastName, setLastName] = useState(userState.data?.last_name);
-  const [dateOfBirth, setDateOfBirth] = useState(userState.data?.date_of_birth);
+  const [dateOfBirth, setDateOfBirth] = useState(
+    userState.data?.date_of_birth ? userState.data?.date_of_birth : ""
+  );
   const [profileImage, setProfileImage] = useState(
     userState.data?.profile_image
   );
@@ -30,10 +36,12 @@ const UpdateFormComponent = ({ setShowForm }) => {
     setMiddleName("");
     setLastName("");
     setDateOfBirth("");
+    setShowForm(false);
   };
   const handleRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append("id", userState.data?.id);
     if (email === "") {
       formData.append("email", userState.data?.email);
     } else {
@@ -49,23 +57,28 @@ const UpdateFormComponent = ({ setShowForm }) => {
     } else {
       formData.append("middle_name", middleName);
     }
-    if (lastName === "") {
+    if (lastName === "" || lastName === null) {
       formData.append("last_name", userState.data?.last_name);
     } else {
       formData.append("last_name", lastName);
     }
-    if (dateOfBirth === "") {
-      formData.append("date_of_birth", userState.data?.date_of_birth);
+    if (dateOfBirth === "" || dateOfBirth === null) {
+      formData.append("date_of_birth", "");
     } else {
-      formData.append("date_of_birth", dateOfBirth);
+      formData.append("date_of_birth", formatDate(new Date(dateOfBirth)));
     }
-    formData.append("date_of_birth", dateOfBirth);
-    if (profileImage === null) {
+    if (profileImage === null || typeof profileImage === "string") {
       formData.append("profile_image", "");
+    } else {
+      formData.append("profile_image", profileImage);
     }
-    if (coverImage === null) {
+    if (coverImage === null || typeof coverImage === "string") {
       formData.append("cover_image", "");
+    } else {
+      formData.append("cover_image", coverImage);
     }
+
+    await updateUserProfile(router, dispatch, userState?.data?.id, formData);
     userState.error && clearForm();
     userState.success && clearForm();
   };
@@ -141,7 +154,6 @@ const UpdateFormComponent = ({ setShowForm }) => {
               type="file"
               accept="image/jpeg, image/jpg, image/png"
               id="profile_image"
-              hidden
               required
               placeholder="Middle Name"
               onChange={(e) => {
@@ -154,9 +166,7 @@ const UpdateFormComponent = ({ setShowForm }) => {
             <input
               type="file"
               id="cover_image"
-              hidden={true}
               accept="image/jpeg, image/jpg, image/png"
-              //   value={profileImage}
               required
               placeholder="Cover Image"
               onChange={(e) => {
@@ -169,6 +179,7 @@ const UpdateFormComponent = ({ setShowForm }) => {
               type="submit"
               onClick={(e) => {
                 e.preventDefault();
+                handleRegister(e);
               }}
             >
               Update

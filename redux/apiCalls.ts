@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NextRouter } from "next/router";
 const backendUrl = "http://localhost:8000/api";
 
 import {
@@ -163,8 +164,24 @@ export const refetchUser = async (
 };
 
 export const updateUserProfile = async (
+  router: NextRouter,
+  dispatch: Function,
   userId: number | string,
   data: FormData
 ) => {
-  const res = axios.put(`${backendUrl}/users/${userId}`, data);
+  console.log(userId);
+  if (userId !== undefined) {
+    console.log("userId", Number(userId));
+    dispatch(updateUserPending());
+    const res = await axios.put(`${backendUrl}/users/${Number(userId)}/`, data);
+
+    try {
+      const updatedUser = await res.data;
+      router.reload(window.location.href);
+      dispatch(updateUserSuccess());
+    } catch (error) {
+      console.log("error", error);
+      dispatch(updateUserError());
+    }
+  }
 };
