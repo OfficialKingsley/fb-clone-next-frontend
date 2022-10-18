@@ -4,8 +4,7 @@ import Profile from "../../../containers/Profile";
 import { getProfile } from "../../../redux/apiCalls";
 import { borderRadius, colors, spacing } from "../../../utils/variables";
 
-const backendApiUrl = "http://localhost:8000/api";
-const backendUrl = "http://localhost:8000";
+const backendApiUrl = process.env.BACKEND_API_URL;
 
 export const getServerSideProps = async (context) => {
   const userRes = await fetch(`${backendApiUrl}/users/${context.params.id}/`);

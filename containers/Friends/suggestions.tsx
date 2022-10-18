@@ -15,7 +15,7 @@ import Bookmarks from "../Bookmarks/friends";
 
 import { HomeContainer, HomeContent } from "./styles";
 
-const backendApiUrl = "http://localhost:8000/api";
+const backendApiUrl = process.env.BACKEND_API_URL;
 
 export default function FriendSuggestions() {
   const [hideBookmarks, setHideBookmarks] = useState(false);

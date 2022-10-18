@@ -16,8 +16,6 @@ import Sidebar from "../Sidebar";
 
 import { HomeContainer, HomeContent } from "./styles";
 
-const backendApiUrl = "http://localhost:8000/api";
-
 export default function Friends() {
   const [hideBookmarks, setHideBookmarks] = useState(false);
   const [hideSidebar, setHideSidebar] = useState(false);

@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useSelector } from "../redux/hooks";
 
-const backendUrl = "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
 
 const PostTop = styled.div`
   display: flex;

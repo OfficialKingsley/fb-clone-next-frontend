@@ -5,7 +5,7 @@ import { KmvNotifications } from "../public/images/ImageComponents";
 import { logoutUser } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "../redux/hooks";
 
-const backendUrl = "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
 const RightNav = ({ className }) => {
   const dispatch = useDispatch();
   const [notifications, setNotifications] = useState([]);

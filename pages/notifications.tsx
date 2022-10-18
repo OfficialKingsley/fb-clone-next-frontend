@@ -3,7 +3,7 @@ import { useSelector } from "../redux/hooks";
 import { Section } from "../utils/styles";
 
 const NotificationsPage = () => {
-  const backendUrl = "http://localhost:8000";
+  const backendUrl = process.env.BACKEND_URL;
   const loggedInUser = useSelector((state) => {
     return state.user.data;
   });

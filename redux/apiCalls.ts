@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NextRouter } from "next/router";
-const backendUrl = "http://localhost:8000/api";
+const backendApiUrl = "http://localhost:8000/api";
 
 import {
   getPending,
@@ -27,7 +27,7 @@ import {
 
 export const getPosts = async (dispatch: Function) => {
   dispatch(getPending());
-  const res = await axios.get(`${backendUrl}/posts/`);
+  const res = await axios.get(`${backendApiUrl}/posts/`);
   try {
     const data = await res.data;
     dispatch(getSuccess(data));
@@ -57,7 +57,7 @@ export const loginUser = async (
   loginData: { email: String; password: String }
 ) => {
   const res = await axios.post(
-    `${backendUrl}/users/login/`,
+    `${backendApiUrl}/users/login/`,
     JSON.stringify(loginData),
     {
       headers: {
@@ -81,14 +81,14 @@ export const loginUser = async (
 
 export const logoutUser = async (dispatch: Function, id: Number | String) => {
   dispatch(updateUserPending());
-  const res = await axios.post(`${backendUrl}/users/${id}/logout/`);
+  const res = await axios.post(`${backendApiUrl}/users/${id}/logout/`);
   dispatch(unsetUser());
   dispatch(setTheme("light"));
   dispatch(updateUserSuccess());
 };
 
 export const sendPost = async (postData: FormData, dispatch: Function) => {
-  const res = await axios.post(`${backendUrl}/posts/`, postData);
+  const res = await axios.post(`${backendApiUrl}/posts/`, postData);
   dispatch(addPending());
   try {
     dispatch(addSuccess());
@@ -99,7 +99,7 @@ export const sendPost = async (postData: FormData, dispatch: Function) => {
 };
 
 export const registerUser = async (userData: FormData, dispatch: Function) => {
-  const res = await axios.post(`${backendUrl}/users/register/`, userData);
+  const res = await axios.post(`${backendApiUrl}/users/register/`, userData);
   dispatch(addPending());
   try {
     dispatch(addSuccess());
@@ -111,7 +111,7 @@ export const registerUser = async (userData: FormData, dispatch: Function) => {
 };
 
 export const getProfile = async (id: Number | String) => {
-  const res = await axios.get(`${backendUrl}/users/${id}/`);
+  const res = await axios.get(`${backendApiUrl}/users/${id}/`);
   try {
     return res.data;
   } catch (error) {
@@ -139,7 +139,7 @@ export const sendFriendRequest = async (requestData: {
   accepted: Boolean;
 }) => {
   const res = await axios.post(
-    `${backendUrl}/users/${requestData.receiver}/add-friend/`,
+    `${backendApiUrl}/users/${requestData.receiver}/add-friend/`,
     JSON.stringify(requestData),
     {
       headers: {
@@ -173,7 +173,10 @@ export const updateUserProfile = async (
   if (userId !== undefined) {
     console.log("userId", Number(userId));
     dispatch(updateUserPending());
-    const res = await axios.put(`${backendUrl}/users/${Number(userId)}/`, data);
+    const res = await axios.put(
+      `${backendApiUrl}/users/${Number(userId)}/`,
+      data
+    );
 
     try {
       const updatedUser = await res.data;

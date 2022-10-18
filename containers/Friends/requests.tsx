@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from "../../redux/hooks";
 import Bookmarks from "../Bookmarks/friends";
 import { HomeContainer, HomeContent } from "./styles";
 
-const backendUrl = "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
+
 const FriendRequests = () => {
   const [hideBookmarks, setHideBookmarks] = useState(false);
   const [hideSidebar, setHideSidebar] = useState(false);

@@ -17,7 +17,7 @@ import {
 import { Divider } from "../../utils/styles";
 import { useSelector } from "../../redux/hooks";
 
-const backendUrl = "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
 
 export default function Bookmarks({ hidden }) {
   const user = useSelector((state) => {

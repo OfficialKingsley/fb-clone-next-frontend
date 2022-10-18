@@ -36,7 +36,8 @@ const SecondButton = styled.button`
   cursor: pointer;
   color: ${({ theme }) => theme.text.primary};
 `;
-const backendUrl = "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
+
 const Friend = ({ friendId, buttonText1, buttonText2, action1, action2 }) => {
   const [friend, setFriend] = useState(null);
   const [sentRequest, setSentRequest] = useState(false);

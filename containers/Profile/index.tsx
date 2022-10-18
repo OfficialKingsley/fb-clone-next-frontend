@@ -22,7 +22,7 @@ import {
 } from "./styles";
 import UpdateFormComponent from "./UpdateForm";
 
-const backendUrl = "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
 
 const Profile = ({ user, friends, posts }) => {
   const [sentRequest, setSentRequest] = useState(false);

@@ -13,7 +13,7 @@ import { colors, spacing } from "../../utils/variables";
 import ActualAddPostForm from "./AddPostForm";
 import { useSelector } from "../../redux/hooks";
 
-const backendUrl = "http://localhost:8000";
+const backendUrl = process.env.BACKEND_URL;
 
 export default function AddForm({}) {
   const [showForm, setShowForm] = useState(false);
