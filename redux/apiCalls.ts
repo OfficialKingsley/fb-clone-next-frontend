@@ -1,6 +1,7 @@
 import axios from "axios";
 import { NextRouter } from "next/router";
-const backendApiUrl = "http://localhost:8000/api";
+
+const backendApiUrl = process.env.BACKEND_API_URL;
 
 import {
   getPending,

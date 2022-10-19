@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const environment = process.env.NODE_ENV;
+const backendApiUrl = `${process.env.BACKEND_URL}/api`;
 
 const nextConfig = {
   reactStrictMode: true,
@@ -9,7 +10,10 @@ const nextConfig = {
       environment === "production"
         ? "https://facebook-clone-django-backend.onrender.com"
         : "http://localhost:8000",
-    BACKEND_API_URL: `${process.env.BACKEND_URL}/api`,
+    BACKEND_API_URL:
+      environment === "production"
+        ? "https://facebook-clone-django-backend.onrender.com/api"
+        : "http://localhost:8000/api",
   },
   images: {
     domains: ["onrender.com", "", ".onrender.com"],
