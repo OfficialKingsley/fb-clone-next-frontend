@@ -169,9 +169,7 @@ export const updateUserProfile = async (
   userId: number | string,
   data: FormData
 ) => {
-  console.log(userId);
   if (userId !== undefined) {
-    console.log("userId", Number(userId));
     dispatch(updateUserPending());
     const res = await axios.put(
       `${backendApiUrl}/users/${Number(userId)}/`,
@@ -180,10 +178,9 @@ export const updateUserProfile = async (
 
     try {
       const updatedUser = await res.data;
-      router.reload(window.location.href);
+      router.reload();
       dispatch(updateUserSuccess());
     } catch (error) {
-      console.log("error", error);
       dispatch(updateUserError());
     }
   }

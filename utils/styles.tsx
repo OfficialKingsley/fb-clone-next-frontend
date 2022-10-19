@@ -1,7 +1,8 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { spacing } from "./variables";
+import { Theme } from "../styled-components";
 
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   html,
   body {
     padding: 0;

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "../redux/hooks";
 import { Section } from "../utils/styles";
 
+const backendUrl = process.env.BACKEND_URL;
+
 const NotificationsPage = () => {
-  const backendUrl = process.env.BACKEND_URL;
   const loggedInUser = useSelector((state) => {
     return state.user.data;
   });
